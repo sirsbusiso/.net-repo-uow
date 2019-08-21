@@ -33,6 +33,22 @@ namespace CRUDSEPARATIONOFCONCENTP1.BusinessLogic
             }
         }
 
+        public GetByIdViewModel getbystudentid(int id)
+        {
+            using (UnitOfWork uow = new UnitOfWork())
+            {
+                var student = uow.Repository<Student>().GetById(id);
+                return new GetByIdViewModel
+                {
+                    Name = student.Name,
+                    CourseName = student.Course.CourseName,
+                    Surname = student.Surname,
+                    StudentNumber = student.StudentNumber,
+                    StudentId = student.StudentId
+                    };
+            }
+        }
+
         public void RemoveStudent(int id)
         {
             using (UnitOfWork uow = new UnitOfWork())

@@ -1,0 +1,255 @@
+﻿@model PagedList.IPagedList<CRUDSEPARATIONOFCONCENTP1.ViewModels.AllStudentViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Student(s)";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+    <script type="text/javascript">
+
+        $("#name").keyup(function () {
+
+            var value = this.value.toLowerCase().trim();
+
+            $("table tr").each(function (index) {
+
+                if (!index) return;
+
+                $(this).find("td").each(function () {
+
+                    var id = $(this).text().toLowerCase().trim();
+
+                    var not_found = (id.indexOf(value) == -1);
+
+                    $(this).closest('tr').toggle(!not_found);
+
+                    return not_found;
+
+                });
+
+            });
+
+        });
+
+    </script>
+    <script>
+
+        var TeamDetailPostBackURL = '/Student/Details';
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+
+    <script>
+
+        var TeamDetailPostBackURL1 = '/Student/Edit';
+        $(function () {
+            $(".anchorEdit").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL1,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+
+    <script>
+
+        var TeamDetailPostBackURL2 = '/Student/Create';
+        $(function () {
+            $(".anchorCreate").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL2,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+
+}
+
+
+<div>
+    <h2>Students</h2>
+    <button type="button" class="btn btn-info"> <a href="javascaript:void(0);" class="anchorCreate">Add Student</a> </button>
+
+    <p>
+        @using (Html.BeginForm("Index", "Student"))
+        {
+            <div class="container">
+                <div class="col-md-offset-10">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group add-on">
+                            <input class="form-control" placeholder="Search" name="name" id="name" type="text">
+                            <div class="input-group-btn">
+                                @*<button class="btn btn-default" type="submit"></button>*@
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </p>
+
+</div>
+<div>
+    @*@using (@Html.BeginForm("Index", "Student"))
+        {
+            @Html.TextBox("name")
+            <input type="submit" value="Search" />
+        }*@
+</div>
+
+<div class="panel panel-success">
+    <!-- Default panel contents -->
+    <div class="panel-heading">All Students</div>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead class="thead-inverse">
+            <p>
+
+            </p>
+            <tr>
+                <th>
+                    @Html.ActionLink("Course Name", "Index", new { SortOrder = ViewBag.CourseName })
+                </th>
+                <th>
+                    @Html.ActionLink("Name", "Index", new { SortOrder = ViewBag.StudentName })
+                </th>
+                <th>
+                    @Html.ActionLink("Surname", "Index", new { SortOrder = ViewBag.StudentSurname })
+                </th>
+                <th>
+                    @Html.ActionLink("Student Number", "Index", new { SortOrder = ViewBag.StudentNumber })
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentNumber)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info"> <a href="javascaript:void(0);" class="anchorEdit" data-id="@item.StudentId">Update</a> </button>
+                        <button type="button" class="btn btn-info"> <a href="javascaript:void(0);" class="anchorDetail" data-id="@item.StudentId">Details</a> </button>
+                        <button type="button" class="btn btn-info">@Html.ActionLink("Delete", "Delete", new { id = item.StudentId }, new { onclick = "return confirm('Are you sure you wish to delete this record?');" })</button>
+                    </td>
+                </tr>
+            }
+        </thead>
+    </table>
+</div>
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+
+            </div>
+        </div>
+    </div>
+    <p>
+    </p>
+</div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, SortOrder = ViewBag.CourseName }))
+
